@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Translation App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #translationInput {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        #translationDirection {
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        #translationOutput {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Language Translation</h1>
+
+    <label for="translationInput">Enter Text:</label>
+    <textarea id="translationInput" rows="4"></textarea>
+
+    <label for="translationDirection">  Translation Direction:</label>
+    <select id="translationDirection">
+        <option hidden disabled selected value> -- select Language -- </option>
+        <option value="kiswahili">Kiswahili</option>
+        <option value="english">English</option>
+    </select>
+
+    <button id="translateButton">Translate</button>
+
+    <h2>Translation Output:</h2>
+    <div id="translationOutput"></div>
+
+    <script>
+
+        document.getElementById("translateButton").addEventListener("click", translate);
+
+        async function translate() {
+            // Get input text and translation direction
+            const inputText = document.getElementById("translationInput").value;
+            const translationDirection = document.getElementById("translationDirection").value;
+
+            // Perform translation by calling the Flask API
+            try {
+                const response = await fetch('/translate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: inputText, direction: translationDirection }),
+                });
+
+                const result = await response.json();
+
+                // Display the translation output
+                document.getElementById("translationOutput").innerText = result.translation || "Translation not available.";
+            } catch (error) {
+                console.error('Error during translation:', error);
+                document.getElementById("translationOutput").innerText = "Error during translation.";
+            }
+        }
+    </script>
+</body>
+</html>
