@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Styling</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=nunito@400&f[]=stardom@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/static/bg4.png');
+            background-size: cover;
+            background-position: center;
+            filter: blur(5px);
+            z-index: -1;
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.3); /* Transparent black */
+            padding: 20px 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            color: #5a1e1e;
+            font-size: 30px;
+            padding-left: 30px; 
+            font-family: 'Stardom', sans-serif;
+            margin-right: 20px;
+            text-decoration: none; 
+        }
+        
+
+        .navbar-nav {
+            list-style: none;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 30px; 
+        }
+
+        .nav-item {
+            margin-right: 20px;
+        }
+
+        .nav-link {
+            font-family: 'Nunito', sans-serif;
+            transition: color 0.3s;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            color: #ff4500;
+        }
+
+        .main-content {
+            text-align: center;
+            color: #fff;
+            position: relative;
+            padding-top: 120px;
+        }
+
+        .main-content h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .translate-button {
+            background-color: #ff4500;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .translate-button:hover {
+            background-color: #e63e00;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Transparent black */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+         /* Style for text animation */
+         .typing-animation {
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            border-right: .15em solid orange; /* Cursor style */
+            animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
+        }
+
+
+        /* Keyframe animation for typing effect */
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Keyframe animation for cursor blinking */
+        @keyframes blink-caret {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: orange;
+            }
+            /* After typing animation completes, make the cursor transparent */
+            100% {
+                border-color: transparent;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-image"></div>
+
+    <header>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand mr-auto" href="#">TrulyKE</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dashboard">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/history">History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile">Profile</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Log Out</a>
+                        </li>
+    
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-content" style="position: absolute; top: 50%; right: 9%; transform: translateY(-50%); font-family: 'Nunito', sans-serif;">
+        <div>
+            <!-- Dynamic text with typing animation for the first h1 -->
+            <h1 id="welcome-heading" class="typing-animation"  style="text-align: left; margin-bottom: 10px; font-size: 50px;"></h1>
+            <!-- Dynamic text with typing animation for the second h1 -->
+            <h1 id="what-heading" class="typing-animation" style="text-align: left; margin-bottom: 15px;"></h1>
+            <button id="translate-btn" class="translate-button" style="visibility:hidden;" onclick="window.location.href='/usertranslation'">Translate</button>
+        </div>
+    </div>
+    
+    <!-- Image in the left center -->
+    <div style="position: absolute; top: 55%; left: 10%; transform: translateY(-50%);">
+        <img src="/static/small1.png" alt="Big Circular Image" style="border-radius: 50%; width: 55%; height: 55%;">
+    </div>
+    
+
+    <div class="footer">
+        <p> &copy; Copyright. TrulyKE.Kenya.2024</p>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // JavaScript code to set text content after typing the first h1
+        setTimeout(function() {
+            document.getElementById('welcome-heading').textContent = "Welcome back {{ session['username']}}!";
+            // After setting the first h1, set the second h1 content after a delay
+            setTimeout(function() {
+                document.getElementById('what-heading').textContent = 'What do you have for us today?';
+                document.getElementById('translate-btn').style.visibility= 'visible';
+                document.getElementById("translate-btn").addEventListener("click", function() {
+                 window.location.href = "/usertranslation";
+             });
+                
+            }, 3000); // Adjust the delay as needed
+            // Remove cursor after text animation completes
+            document.querySelectorAll('.typing-animation').forEach(function(el) {
+                    el.style.borderRight = 'none';
+                });
+        },1000); // Adjust the delay as needed
+    </script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Styling</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=nunito@400&f[]=stardom@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        main {
+            text-align: center;
+            color: #281f1f;
+            position: relative;
+            padding-top: 150px;
+            font-weight: bold;
+
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/static/bg4.png');
+            background-size: cover;
+            background-position: center;
+            filter: blur(5px);
+            z-index: -1;
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.3); /* Transparent black */
+            padding: 20px 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            color: #5a1e1e;
+            font-size: 30px;
+            padding-left: 30px; 
+            font-family: 'Stardom', sans-serif;
+            margin-right: 20px;
+            text-decoration: none; 
+        }
+        
+
+        .navbar-nav {
+            list-style: none;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 30px; 
+        }
+
+        .nav-item {
+            margin-right: 20px;
+        }
+
+        .nav-link {
+            font-family: 'Nunito', sans-serif;
+            transition: color 0.3s;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            color: #ff4500;
+        }
+
+        .main-content {
+            text-align: center;
+            color: #fff;
+            position: relative;
+            padding-top: 120px;
+        }
+
+        .main-content h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .translate-button {
+            background-color: #ff4500;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .translate-button:hover {
+            background-color: #e63e00;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Transparent black */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <body>
+        <div class="background-image"></div>
+        <header>
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-dark">
+                    <a class="navbar-brand mr-auto" href="#">TrulyKE</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/dashboard">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/history">History</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/profile">Profile</a>
+                            </li>
+    
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">Log Out</a>
+                            </li>
+                            
+                            
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </header>
+    
+
+        <main class="container">
+            <section class="translation-section">
+                <h1 class="text-center mb-4"></h1>
+                <div class="translation-container">
+                    <div class="row">
+                        <!-- Source Language Selection -->
+                        <div class="col-md-6">
+                            <label for="source-lang">Source Language:</label>
+                            <select class="form-control mb-3" id="source-lang">
+                                <option value="en">English</option>
+                                <option value="kis">Kiswahili</option>
+                                <option value="kiuk">Kikuyu</option>
+                                <option value="luo">Luo</option>
+                                <option value="meru">Kimeru</option>
+                                <!-- Add more language options -->
+                            </select>
+                        </div>
+                    
+                        <!-- Target Language Selection -->
+                        <div class="col-md-6">
+                            <label for="target-lang">Target Language:</label>
+                            <select class="form-control mb-3" id="target-lang">
+                                <option value="en">English</option>
+                                <option value="kis">Kiswahili</option>
+                                <option value="kiuk">Kikuyu</option>
+                                <option value="luo">Luo</option>
+                                <option value="meru">Kimeru</option>
+                                <!-- Add more language options -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Text Input Container -->
+                        <div class="col-md-6">
+                            <div class="form-group position-relative">
+                                <textarea class="form-control mb-3" id="input-text" placeholder="Enter text to translate" style="height: 300px;"></textarea>
+                                <!-- Speech Icon -->
+                                <button class="btn btn-light speak-icon position-absolute" id="speak-btn" style="bottom: 5px; right: 5px;"><i class="fas fa-volume-up"></i></button>
+                                <!-- Picture Upload Icon
+                                <label for="image-input" class="position-absolute" style="bottom: 5px; right: 5px;"><i alt="Upload Icon" width="20" class="photo-icon"></label>
+                                 <input type="file" class="form-control-file d-none" id="image-input" accept="image/*"> -->
+                            </div>
+                        </div>
+                        
+
+                      <!-- Output Text Container -->
+                    
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <textarea class="form-control mb-3" id="output-text" readonly style="height: 300px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" style="margin-top: -10px;">
+                        <button class="btn btn-primary" id="translate-btn">Translate</button>
+                        </div>
+
+                        <div class="col-md-6" style="margin-top: -10px;">
+                            <button class="btn btn-success" id="save-btn">Save</button>
+                           </div>
+
+                    </div>
+    
+                    
+                </div>
+            </section>
+        </main>
+        
+        
+
+    <div class="footer">
+        <p> &copy; Copyright. TrulyKE.Kenya.2024</p>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+  
+    <script>
+        document.getElementById("translate-btn").addEventListener("click", translate);
+        document.getElementById("save-btn").addEventListener("click", saveTranslation); // Add event listener for Save button
+    
+        async function translate() {
+            // Get input text and translation direction
+            const inputText = document.getElementById("input-text").value;
+            const sourceLang = document.getElementById("source-lang").value;
+            const targetLang = document.getElementById("target-lang").value;
+    
+            // Determine translation direction based on source and target languages
+            let direction;
+            if (sourceLang === "en" && targetLang === "kis") {
+                direction = "kiswahili";
+            } else if (sourceLang === "kis" && targetLang === "en") {
+                direction = "english";
+            } else {
+                console.error("Unsupported translation direction.");
+                return;
+            }
+    
+            // Perform translation by calling the Flask API
+            try {
+                const response = await fetch('/translate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: inputText, direction: direction }),
+                });
+    
+                const result = await response.json();
+    
+                // Display the translation output
+                document.getElementById("output-text").innerText = result.translation || "Translation not available.";
+            } catch (error) {
+                console.error('Error during translation:', error);
+                document.getElementById("output-text").innerText = "Error during translation.";
+            }
+        }
+
+        async function saveTranslation() {
+        const inputText = document.getElementById("input-text").value;
+        const outputText = document.getElementById("output-text").value;
+        const sourceLang = document.getElementById("source-lang").value;
+        const targetLang = document.getElementById("target-lang").value;
+
+        try {
+            const response = await fetch('/save_translation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ input_text: inputText, translated_text: outputText, source_language: sourceLang, target_language: targetLang }),
+            });
+
+            if (response.ok) {
+                alert('Translation saved successfully!');
+            } else {
+                alert('Failed to save translation.');
+            }
+        } catch (error) {
+            console.error('Error saving translation:', error);
+            alert('Error saving translation.');
+        }
+    }
+    </script>
+    
+</body>
+</html>
