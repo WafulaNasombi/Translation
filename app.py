@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify 
 from transformers import TFMarianMTModel, MarianTokenizer
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
+# from flask_login import current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
 from flask_session import Session
@@ -143,12 +144,12 @@ def usertranslation():
     return render_template('usertranslation.html',username=session['username'])
 
 
-def insert_translation(source_language, target_language, input_text, translated_text):
+def insert_translation(user_id, source_language, target_language, input_text, translated_text):
     try:
         cursor = mysql.connection.cursor()
         cursor.execute(
-            "INSERT INTO history (source_language, target_language, input_text, translated_text) VALUES (%s, %s, %s, %s)",
-            (source_language, target_language, input_text, translated_text)
+            "INSERT INTO history (user_id, source_language, target_language, input_text, translated_text) VALUES (%s, %s, %s, %s, %s)",
+            (user_id, source_language, target_language, input_text, translated_text)
         )
         mysql.connection.commit()
         cursor.close()
@@ -172,7 +173,7 @@ def engkiuk():
 def engkisw():
     # Fetch translations saved by the logged-in user from the database
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT input_text, translated_text FROM history WHERE username = %s", (session['username'],))
+    cursor.execute("SELECT h.input_text, h.translated_text FROM history h INNER JOIN user u ON h.user_id = u.id WHERE u.username = %s", (session['username'],))
     user_translations = cursor.fetchall()
     cursor.close()
     
@@ -183,7 +184,6 @@ def engkisw():
     cursor.close()
 
     return render_template('eng_kisw.html', user_translations=user_translations, eng_kisw_translations=eng_kisw_translations, username=session['username'])
-
 
 # @app.route('/update_profile', methods=['GET', 'POST'])
 # def update_profile():
@@ -209,6 +209,14 @@ def engkisw():
 
 #     return render_template('update_profile.html')
 
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 # Logout route
 @app.route('/logout')
@@ -248,20 +256,39 @@ def translate():
 def save_translation():
     # Get data from the request JSON
     data = request.json
-    input_text = data.get("input_text")
-    translated_text = data.get("translated_text")
-    source_language = data.get("source_language")
-    target_language = data.get("target_language")
+    if not data or "input_text" not in data or "translated_text" not in data \
+            or "source_language" not in data or "target_language" not in data:
+        return jsonify({"error": "Missing required data fields"}), 400
 
-    # Get the user ID of the current user
-    user_id = current_user.id
+    input_text = data["input_text"]
+    translated_text = data["translated_text"]
+    source_language = data["source_language"]
+    target_language = data["target_language"]
+
+    # Get the username from the session
+    username = session.get("username")
+    if not username:
+        return jsonify({"error": "User not authenticated"}), 401
+
+    # Fetch the user ID from the database based on the username
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT id FROM user WHERE username = %s", (username,))
+        user = cursor.fetchone()
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+        user_id = user["id"]
+    except Exception as e:
+        return jsonify({"error": f"Failed to fetch user ID: {str(e)}"}), 500
+    finally:
+        cursor.close()
 
     # Insert the translation into the history table
-    insert_translation(user_id, source_language, target_language, input_text, translated_text)
-
-
-    return jsonify({"message": "Translation saved successfully"}), 200
-
+    try:
+        insert_translation(user_id, source_language, target_language, input_text, translated_text)
+        return jsonify({"message": "Translation saved successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": f"Failed to save translation: {str(e)}"}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
